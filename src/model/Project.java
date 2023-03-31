@@ -9,57 +9,57 @@ import java.text.ParseException;
 
 public class Project{
 	
-	private String name;
+	private String projectName;
 	private String clientName;
-	private Calendar initialDate;
-	private Calendar finalDate;
+	private Calendar startDate;
+	private Calendar endDate;
 	private double budget;
+	private String typeProject;
 
 	private DateFormat formatter;
 
-	public Project(String name, String clientName, Calendar initialDate, Calendar finalDate, double budget){
+	public Project(String projectName, String clientName, double budget, String typeProject){
 		
 		this.formatter = new SimpleDateFormat("dd/M/yy");
 
-		this.name = name;	
+		this.projectName = projectName;	
 		this.clientName = clientName;
-		this.initialDate = initialDate;
-		this.finalDate = finalDate;
+		this.typeProject = typeProject;
 		this.budget = budget;
 	}
 
-	public String getName(){
-		return name;
+	public String getProjectName(){
+		return projectName;
 	}
 	
 	public String getClientName(){
 		return clientName;
 	}
 
-	public Calendar getInitialDate(){
-		return initialDate;
-	}
-	
-	public String getInitialDateFormated() throws ParseException{
-		return formatter.format(this.initialDate.getTime());
+	public String getTypeProject(){
+		return typeProject;
 	}
 
-	public Calendar getFinalDate(){
-		return finalDate;
+	public Calendar getStartDate(){
+		return startDate;
 	}
 
-	public String getFinalDateFormated() throws ParseException{
-		return formatter.format(this.finalDate.getTime());
-	}		
+    public double getBudget() {
+        return budget;
+    }
+    
+    public Calendar getEndDate() {
+        return endDate;
+    }
 
-	public double getBudget(){
-		return budget;
-	}
-
-	public String getProjectInfo() throws ParseException{
-		return "\nName: " + name + "\nClient: " + clientName + "\nInitial Date: " + getInitialDateFormated() + 
-		"\nFinal Date: " + getFinalDateFormated() + "\nTotalBudget: " + budget + ".\n";
-	}
+	public void setStartDate() {
+        this.startDate = Calendar.getInstance();
+    }
+    
+    public void setEndDate(int projectDuration) {
+        this.endDate = (Calendar) this.startDate.clone();
+        this.endDate.add(Calendar.MONTH, projectDuration);
+    }
 }
 
 
