@@ -1,6 +1,6 @@
 package ui;
 
-import java.util.Scanner;
+import java.util.*;
 import model.Controller;
 import java.text.*;
 
@@ -39,6 +39,7 @@ public class Main{
             registerProject();
                 break; 
             case 2:
+			searchProjectsAfterDate();
                 break; 
             case 0:
                 System.out.println("See you soon!"); 
@@ -111,6 +112,15 @@ public class Main{
 
 	//Incomplete
 	public void searchProjectsAfterDate() {
+		Calendar dateProjectAfter;
+		System.out.println("Enter the date: "); 
+		dateProjectAfter = reader.next(); 
+		reader.nextLine();
+		String[] msg = controller.searchProjectsAfterDate(dateProjectAfter);
+		System.out.println("Projects after the date:");
+
+
+
 
 	}
 	

@@ -39,9 +39,10 @@ public class Controller {
 
 	//Incomplete
 	// Date class also has their own before() and after() method
-	public String searchProjectsAfterDate() {
+	public String searchProjectsAfterDate(Calendar projectAfter) {
 
 		String msg = "";
+
 
 		return msg;
 
