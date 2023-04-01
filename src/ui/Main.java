@@ -9,11 +9,14 @@ public class Main{
 
 	private Scanner reader;
 	private Controller controller;
+    private int numProjects;// counter with the number of projects, permite mostrar la informacion una vez se creo el proyecto
+
 
 	public Main() {
 
 		this.reader = new Scanner(System.in);
 		controller = new Controller();
+        numProjects = 0;
 	}
 
 	public static void main(String[] args) {
@@ -41,6 +44,9 @@ public class Main{
             case 2:
 			searchProjectsAfterDate();
                 break; 
+            case 3:
+            searchProjectsBeforeDate();
+                break;
             case 0:
                 System.out.println("See you soon!"); 
                 break;
@@ -66,7 +72,6 @@ public class Main{
         String clientName = ""; 
 		int projectType;
         double budget = 0;   
-        int numProjects = 0;// counter with the number of projects, permite mostrar la informacion una vez se creo el proyecto
 		int projectDuration = 0;
         System.out.println("                       -------------Welcome to the project management system------------");
         if (controller.getFirstValidPosition() != -1){
@@ -77,10 +82,15 @@ public class Main{
             clientName = reader.next(); 
             reader.nextLine();
             System.out.println("Enter the project type: "); 
-			System.out.println("1. Desarrollo"); 
-			System.out.println("2. Mantenimiento "); 
-			System.out.println("3. Despliegue"); 
+            System.out.println("1. Desarrollo"); 
+            System.out.println("2. Mantenimiento "); 
+            System.out.println("3. Despliegue"); 
             projectType = reader.nextInt(); 
+            if (projectType < 1 || projectType > 3) {
+                System.out.println("Please enter a valid project type (1-3): ");
+                projectType = reader.nextInt();
+            }            
+            
             reader.nextLine();
             System.out.println("Enter the project budget: "); 
             budget = reader.nextDouble(); 
@@ -101,42 +111,56 @@ public class Main{
             System.out.println("Client project type: " + controller.getProject()[numProjects].getTypeProject());
             System.out.println("Budget: $" + (int) controller.getProject()[numProjects].getBudget());
 
-
 			numProjects++;
         } else {
-            System.out.println("Límite de proyectos alcanzado :(");
+            System.out.println("Project limit reached :(");
         }
 
 
 	}
 
 	//Incomplete
-	public void searchProjectsAfterDate() {
-		Calendar dateProjectAfter;
-		System.out.println("Enter the date: "); 
-		dateProjectAfter = reader.next(); 
-		reader.nextLine();
-		String[] msg = controller.searchProjectsAfterDate(dateProjectAfter);
-		System.out.println("Projects after the date:");
-
-
-
-
-	}
+    public void searchProjectsAfterDate() {
+        String dateProjectAfter;
+        System.out.println("Enter the date(dd/mm/yyyy): "); 
+        dateProjectAfter = reader.next(); 
+        reader.nextLine();
+        try {
+            String[] projectNames = controller.searchProjectsAfterDate(dateProjectAfter);
+            System.out.println("Projects after the date: ");
+            for (int i = 0; i < projectNames.length; i++) {
+                System.out.println("Project " + (i+1) + ": " + projectNames[i]);
+            }
+        } catch (ParseException e) {
+            System.out.println("Invalid format");
+        }
+    }    
 	
 	//Incomplete
 	public void searchProjectsBeforeDate() {
-
+        String dateProjectAfter;
+        System.out.println("Enter the date(dd/mm/yyyy): "); 
+        dateProjectAfter = reader.next(); 
+        reader.nextLine();
+        try {
+            String[] projectNames = controller.searchProjectsBeforeDate(dateProjectAfter);
+            System.out.println("Projects after the date: ");
+            for (int i = 0; i < projectNames.length; i++) {
+                System.out.println("Project " + (i+1) + ": " + projectNames[i]);
+            }
+        } catch (ParseException e) {
+            System.out.println("Invalid format");
+        }
 	}
 
-	public int validateIntegerInput(){
+	public int validateIntegerInput() {
         int option = 0; 
         if(reader.hasNextInt()){
             option = reader.nextInt(); 
             reader.nextLine();
         }
         else{
-            reader.nextLine();// clear the scanner 
+            reader.nextLine(); 
             option = -1; 
             System.out.println("Enter an integer value"); 
         }

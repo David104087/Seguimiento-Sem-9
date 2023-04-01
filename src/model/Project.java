@@ -4,9 +4,6 @@ import java.util.Calendar;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-import java.text.ParseException;
-
-
 public class Project{
 	
 	private String projectName;

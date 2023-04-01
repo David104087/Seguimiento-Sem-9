@@ -1,7 +1,7 @@
 package model;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.text.*;
+import java.util.*;
 
 public class Controller {
 
@@ -37,26 +37,67 @@ public class Controller {
 		return msg;
 	}
 
-	//Incomplete
-	// Date class also has their own before() and after() method
-	public String searchProjectsAfterDate(Calendar projectAfter) {
-
-		String msg = "";
-
-
-		return msg;
-
+	public String[] searchProjectsAfterDate(String dateCompare) throws ParseException {
+		Calendar fecha = convertString(dateCompare);
+		int sizeArray = getFirstValidPosition();
+		if (sizeArray == -1){
+			sizeArray = 10;
+		}
+	
+		String[] proyectos = new String[sizeArray];
+		int index = 0;
+		for (int i = 0; i < sizeArray; i++) {
+			if (projects[i].getStartDate().compareTo(fecha) > 0) {
+				proyectos[index++] = projects[i].getProjectName();
+			}
+		}
+	
+		if (index == 0) {
+			proyectos = new String[] {"Proyectos no encontrados"};
+		} else if (index < sizeArray) {
+			proyectos = Arrays.copyOf(proyectos, index);
+		}
+	
+		return proyectos;
 	}
 	
-	//Incomplete
-	// Date class also has their own before() and after() method
-	public String searchProjectsBeforeDate() {
+	
 
-		String msg = "";
+	public Calendar convertString(String fechaProyecto) throws ParseException {
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		Calendar newDate = Calendar.getInstance();
+		newDate.setTime(format.parse(fechaProyecto));
 
-		return msg;
-
+		return newDate;
 	}
+	
+	
+
+	public String[] searchProjectsBeforeDate(String dateCompare) throws ParseException {
+		String[] projectNames = new String[10];
+		Calendar fecha = convertString(dateCompare);
+		int validProjects = getFirstValidPosition();
+		int count = 0;
+		if (validProjects == -1) {
+			validProjects = 10;
+		}
+		for (int i = 0; i < validProjects; i++) {
+			if (projects[i].getStartDate().compareTo(fecha) < 0) {
+				projectNames[count] = projects[i].getProjectName();
+				count++;
+			}
+		}
+		if (count > 0) {
+			String[] result = new String[count];
+			for (int i = 0; i < count; i++) {
+				result[i] = projectNames[i];
+			}
+			return result;
+		} else {
+			return new String[]{"No se encontraron proyectos antes de la fecha indicada."};
+		}
+	}
+	
 
 	public int getFirstValidPosition(){
 		int pos = -1; 
